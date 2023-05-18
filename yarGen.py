@@ -86,19 +86,20 @@ KNOWN_IMPHASHES = {'a04dd9f5ee88d7774203e0a0cfa1b941': 'PsExec',
 def get_abs_path(filename):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
 
-
 def get_files(dir, notRecursive):
     # Not Recursive
     if notRecursive:
         for filename in os.listdir(dir):
             filePath = os.path.join(dir, filename)
-            if os.path.isdir(filePath):
+            if os.path.isdir(filePath) or filename == ".DS_Store":
                 continue
             yield filePath
     # Recursive
     else:
         for root, directories, files in scandir.walk(dir, followlinks=False):
             for filename in files:
+                if filename == ".DS_Store":
+                    continue
                 filePath = os.path.join(root, filename)
                 yield filePath
 
